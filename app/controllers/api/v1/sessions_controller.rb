@@ -4,9 +4,10 @@ class Api::V1::SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       session[:user_id] = user.id
       session[:email] = user.email
+      session[:user_type] = user.user_type
       render json: session, status: :ok
     else
-      render json: session, status: :unprocessable_entity
+      render status: :unauthorized
     end
   end
 
