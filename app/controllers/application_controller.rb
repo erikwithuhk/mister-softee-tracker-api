@@ -8,8 +8,11 @@ class AuthenticationTimeoutError < StandardError
 end
 
 class ApplicationController < ActionController::API
-  respond_to :json
   attr_reader :current_user
+
+  before_action :authenticateRequest!
+
+  respond_to :json
 
   rescue_from AuthenticationTimeoutError, with: :authentication_timeout
   rescue_from NotAuthenticatedError, with: :user_not_authenticated
