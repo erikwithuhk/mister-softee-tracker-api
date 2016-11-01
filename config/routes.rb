@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  post "authenticate" => "auth#authenticate"
+  namespace :api do
+    post "authenticate" => "auth#authenticate"
+    resources :users
+  end
 end
