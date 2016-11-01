@@ -1,39 +1,57 @@
+class AccessDeniedError < StandardError
+end
+
+class NotAuthenticatedError < StandardError
+end
+
+class AuthenticationTimeoutError < StandardError
+end
+
 class ApplicationController < ActionController::API
-  include AbstractController::Translation
-
-  before_action :authenticate_user_from_token!
-
   respond_to :json
+  attr_reader :current_user
 
-  def authenticate_user_from_token!
-    auth_token = request.headers['Authorization']
+  rescue_from AuthenticationTimeoutError, with: :authentication_timeout
+  rescue_from NotAuthenticatedError, with: :user_not_authenticated
 
-    if auth_token
-      authenticate_with_auth_token auth_token
-    else
-      authentication_error
-    end
+  protected
+
+  def authenticateRequest!
+    fail NotAuthenticatedError unless user_id_included_in_auth_token?
+    @current_user = User.find(decoded_auth_token[:user_id])
+  rescue JWT::ExpiredSignature
+    raise AuthenticationTimeoutError
+  rescue JWT::VerificationError, JWT::DecodeError
+    raise NotAuthenticatedError
   end
 
   private
 
-  def authenticate_with_auth_token auth_token
-    unless auth_token.include?(':')
-      authentication_error
-      return
-    end
-
-    user_id = auth_token.split(':').first
-    user = User.where(id: user_id).first
-
-    if user && Devise.secure_compare(user.access_token, auth_token)
-      sign_in user, store: false
-    else
-      authentication_error
-    end
+  def user_id_included_in_auth_token?
+    http_auth_token && decoded_auth_token && decoded_auth_token[:user_id]
   end
 
-  def authentication_error
-    render json: {error: t('unauthorized')}, status: 401
+  def decoded_auth_token
+    @decoded_auth_token ||= AuthToken.decode(http_auth_token)
+  end
+
+  def http_auth_token
+    @http_auth_token ||= if request.headers['Authorization'].present?
+                           request.headers['Authorization'].split(' ').last
+                         end
+  end
+
+  def authentication_timeout
+    render json: { errors: ['Authentication Timout'] }, status: 419
+  end
+
+  def forbidden_resource
+    render json: { errors: ['Not Authorized To Access Resource'] },
+           status: :forbidden
+  end
+
+  def user_not_authenticated
+    render json: { errors: ['Not Authenticated'] },
+           status: :unauthorized
   end
 end
