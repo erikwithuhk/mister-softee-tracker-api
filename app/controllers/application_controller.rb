@@ -13,6 +13,8 @@ class ApplicationController < ActionController::API
   # protect_from_forgery with: :exception
 
   before_action :authenticateRequest!
+  before_action :cors_set_access_control_headers
+  before_action :cors_preflight_check
 
   respond_to :json
 
