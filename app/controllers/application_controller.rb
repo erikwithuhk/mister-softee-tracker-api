@@ -10,7 +10,7 @@ end
 class ApplicationController < ActionController::API
   attr_reader :current_user
 
-  protect_from_forgery with: :exception
+  # protect_from_forgery with: :exception
 
   before_action :authenticateRequest!
 
