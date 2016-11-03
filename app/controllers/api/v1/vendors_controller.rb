@@ -3,7 +3,7 @@ class Api::V1::VendorsController < Api::V1::UsersController
 
   def index
     vendors = Vendor.all
-    render json: vendors, status: :ok
+    render json: vendors, only: [:id, :position_lat, :position_lng], status: :ok
   end
 
   def show
