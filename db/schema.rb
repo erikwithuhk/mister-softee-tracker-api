@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20161103012601) do
     t.string   "password_digest"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
-    t.string   "type",            default: "user"
+    t.string   "type",            default: "User"
     t.float    "position_lat"
     t.float    "position_lng"
   end

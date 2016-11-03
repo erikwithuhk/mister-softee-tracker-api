@@ -8,7 +8,11 @@ class Api::V1::UsersController < Api::V1::AuthController
   end
 
   def show
-    render json: @user, status: :ok
+    if @user
+      render json: @user, status: :ok
+    else
+      render json: { errors: @user.errors }, status: unprocessable_entity
+    end
   end
 
   def create
@@ -22,17 +26,27 @@ class Api::V1::UsersController < Api::V1::AuthController
   end
 
   def update
-    # TODO create user#update
+    if @user.update(user_params)
+      render json: @user, status: :ok
+    else
+      render json: { errors: @user.errors }, status: :unprocessable_entity
+    end
   end
 
   def destroy
-    # TODO create user#destroy
+    @user.destroy
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(
+      :email,
+      :password,
+      :type,
+      :position_lat,
+      :position_lng
+    )
   end
 
   def find_user
