@@ -22,10 +22,17 @@ class Api::V1::AuthController < ApplicationController
   def authentication_payload(user)
     return nil unless user && user.id
     {
-      auth_token: AuthToken.encode({ user_id: user.id }),
+      auth_token: AuthToken.encode({
+        user_id: user.id,
+        email: user.email,
+        type: user.type,
+        position: {
+          lat: user.position_lat,
+          lng: user.position_lng,
+        }
+      }),
       user: {
         id: user.id,
-        email: user.email
       }
     }
   end

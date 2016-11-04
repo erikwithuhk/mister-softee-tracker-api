@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_secure_password
 
   validates_presence_of :type
-  validates_inclusion_of :type, in: %w( User Vendor ),
+  validates_inclusion_of :type, in: %w( Customer Vendor ),
                                 message: "{{value}} is not a valid user type"
 
   def self.find_by_credentials(credentials)
