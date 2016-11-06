@@ -3,6 +3,12 @@ class Api::V1::RequestsController < ApplicationController
 
   def index
     requests = Request.all
+    if params[:customer_id]
+      requests = requests.where(customer_id: params[:customer_id])
+    end
+    if params[:vendor_id]
+      requests = requests.where(vendor_id: params[:vendor_id])
+    end
     render json: requests, status: :ok
   end
 
