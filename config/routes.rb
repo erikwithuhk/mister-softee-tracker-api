@@ -4,8 +4,12 @@ Rails.application.routes.draw do
       post 'signup'  => 'users#create'
       resources :users
       post "login" => "auth#authenticate"
-      resources :vendors, only: [:index, :show]
-      resources :customers, only: [:index, :show]
+      resources :vendors, only: [:index, :show] do
+        resources :requests
+      end
+      resources :customers, only: [:index, :show] do
+        resources :requests
+      end
       resources :requests
     end
   end
