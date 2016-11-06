@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   validates_presence_of :type
   validates_inclusion_of :type, in: %w( Customer Vendor ),
-                                message: "{{value}} is not a valid user type"
+                                message: "[%{value}] is not a valid user type"
 
   def self.find_by_credentials(credentials)
     user = find_by_email(credentials[:email])

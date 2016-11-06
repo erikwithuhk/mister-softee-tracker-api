@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       post "login" => "auth#authenticate"
       resources :vendors, only: [:index, :show]
       resources :customers, only: [:index, :show]
+      resources :requests
     end
   end
 end
