@@ -4,7 +4,7 @@ A Rails API for the [Mister Softee Tracker client app](https://github.com/erikwi
 
 
 ## Endpoints
-Users must be authenticated to access these endpoints. Accounts may be created using the [Mister Softee Tracker app](http://mister-softee-tracker-client.herokuapp.com).
+Users must be authenticated to access these endpoints. Accounts may be created using the [Mister Softee Tracker client app](http://mister-softee-tracker-client.herokuapp.com).
 
 Base URL: https://mister-softee-tracker-api.herokuapp.com/api/v1/
 Format: JSON
@@ -23,4 +23,4 @@ Format: JSON
 | User Request | PATCH/PUT | /users/:user_id/requests/:request_id |
 | User Request | DELETE | /users/:user_id/requests/:request_id |
 
-*Note: All user resources are also available for both user types. These are available by replacing "users" in the path with "customers" or "vendors".*
+*Note: All user resources are also available for both user types (customer and vendor). These are available by replacing "users" in the path with "customers" or "vendors".*
