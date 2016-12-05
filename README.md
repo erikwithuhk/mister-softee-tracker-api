@@ -15,12 +15,12 @@ Format: JSON
 | Log in | POST | /login |
 | Users | GET | /users |
 | User | GET | /users/:user_id |
-| User | PATCH | /users/:user_id |
+| User | PATCH/PUT | /users/:user_id |
 | User | DELETE | /users/:user_id |
 | User Requests | GET | /users/:user_id/requests |
 | User Requests | POST | /users/:user_id/requests |
 | User Request | GET | /users/:user_id/requests/:request_id |
-| User Request | PATCH | /users/:user_id/requests/:request_id |
+| User Request | PATCH/PUT | /users/:user_id/requests/:request_id |
 | User Request | DELETE | /users/:user_id/requests/:request_id |
 
 *Note: All user resources are also available for both user types. These are available by replacing "users" in the path with "customers" or "vendors".*
